@@ -1,0 +1,133 @@
+Se está implementando un simulador para la gestión de vehículos eléctricos. Por ahora se
+dispone de:
+
+Una clase Arco que define objetos con las propiedades:
+    • Nodo i
+    • Nodo j
+    • float w
+
+Indica la existencia de un camino entre un nodo i y un nodo j con un costo de energía w
+para ir de i a j. Siempre el nodo i es menor al nodo j.
+
+Una clase Nodo que define objetos con las propiedades:
+    • int id
+    • float g
+
+Define que el pasar por el nodo id implica una ganancia de energía g.
+
+Por ejemplo:
+    nodo_i = new Nodo(1, 100)
+    nodo_j = new Nodo(5, 25)
+    arco_i_j = new Arco()
+    arco_i_j.setExtremos(nodo_i, nodo_j, 50)
+
+Transitar el camino nodo_i -> nodo_j tiene un resultado de energía de 75.
+
+Una clase Caminos almacena una colección de Nodos y Arcos y provee funcionalidades
+para obtener:
+    • El camino con mayor energía resultante (Nodo [] getEcoPath(int nodo_i, int nodo_j))
+    • El camino con mayor energía consumida (Nodo [] getWorstPath(int nodo_i, int nodo_j))
+    • Energía remanente al final de un camino (float getEnergy(Nodo []))
+
+Implemente en JUnit:
+    1) Un test que compruebe que los extremos de un objeto arco deben respetar que el
+    identificador del nodo inicial (i) es menor al identificador del nodo final (j), es decir i < j
+    y que ante esa situación inesperada se dispara la excepción
+    "CaminoInvertidoException()".
+
+    2) Un test que ante un único camino entre un nodo i y un nodo j, el camino propuesto
+    por getEcoPath es idéntico al propuesto por getWorstPath.
+
+    public class ArcoTest {
+        @Test
+        public void testEjercicio1() {
+            nodo_i = new Nodo(5, 100)
+            nodo_j = new Nodo(1, 25)
+            arco_i_j = new Arco()
+
+            assertThrows(CaminoInvertidoException.class, () -> {
+            arco_i_j.setExtremos(nodo_i, nodo_j, 50); // Esto debería lanzar la excepción
+            });
+        }
+
+        @Test
+        public void testEjercicio2() throws CaminoInvertidoException {
+            nodo_i = new Nodo(1, 100)
+            nodo_j = new Nodo(5, 25)
+            arco_i_j = new Arco()
+            arco_i_j.setExtremos(nodo_i, nodo_j, 50);
+
+            Camino camino = new Camino();
+            camino.addNodo(nodo_i);
+            camino.addNodo(nodo_j);
+            camino.addArco(arco_i_j);
+
+            Nodo[] esperado = new Nodo[] { nodo_i, nodo_j };
+
+            Nodo[] eco = camino.getEcoPath(1, 5);
+            Nodo[] worst = camino.getWorstPath(1, 5);
+
+            // Ambos deben devolver el único camino disponible
+            assertArrayEquals(esperado, eco, "EcoPath debe devolver el único camino disponible.");
+            assertArrayEquals(esperado, worst, "WorstPath debe devolver el único camino disponible.");
+
+            // Y, por consiguiente, deben ser iguales entre sí
+            assertArrayEquals(eco, worst, "Con un único camino, ambos métodos devuelven lo mismo.");
+        }
+    }
+
+Implemente en TestNG:
+    1) Un generador de caminos entre diferentes Nodos.
+    2) Un test que verifique el cálculo de energía remanente (getEnergy(Nodo [])).
+
+    public class CaminosEnergyTestNG {
+
+        private Camino camino;
+        private Nodo n1, n3, n4, n5;
+
+        @BeforeClass
+        public void setUp() throws CaminoInvertidoException {
+            // Nodos (id, ganancia g)
+            n1 = new Nodo(1, 100);
+            n3 = new Nodo(3, 10);
+            n4 = new Nodo(4, 5);
+            n5 = new Nodo(5, 25);
+
+            // Arcos: i < j y costo w
+            Arco a13 = new Arco(); a13.setExtremos(n1, n3, 20f);
+            Arco a35 = new Arco(); a35.setExtremos(n3, n5, 15f);
+            Arco a15 = new Arco(); a15.setExtremos(n1, n5, 50f);
+            Arco a14 = new Arco(); a14.setExtremos(n1, n4, 10f);
+            Arco a45 = new Arco(); a45.setExtremos(n4, n5, 5f);
+
+            // Grafo
+            camino = new Camino();
+            camino.addNodo(n1);
+            camino.addNodo(n3);
+            camino.addNodo(n4);
+            camino.addNodo(n5);
+            camino.addArco(a13);
+            camino.addArco(a35);
+            camino.addArco(a15);
+            camino.addArco(a14);
+            camino.addArco(a45);
+        }
+
+        // 1) Generador de caminos entre diferentes Nodos
+        @DataProvider(name = "paths")
+        public Object[][] providePaths() {
+            // Energía = sum(g de nodos del camino) - sum(w de arcos recorridos)
+            return new Object[][]{
+                { new Nodo[]{ n1, n5 }, 75 },
+                { new Nodo[]{ n1, n3, n5 }, 100 },
+                { new Nodo[]{ n1, n4, n5 }, 115 },
+            };
+        }
+
+        // 2) Test de cálculo de energía remanente
+        @Test(dataProvider = "paths")
+        public void testGetEnergyCalculaCorrecto(Nodo[] path, float expectedEnergy) {
+            float actual = camino.getEnergy(path);
+            Assert.assertEquals(actual, expectedEnergy, 1e-6, "Energía remanente incorrecta para el camino dado");
+        }
+    }
