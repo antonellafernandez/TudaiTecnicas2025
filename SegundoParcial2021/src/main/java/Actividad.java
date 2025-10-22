@@ -37,7 +37,7 @@ public class Actividad {
 
 	public void inscribirSocio(Socio s) throws CupoExcedidoException, EdadInsuficienteException {
 		if (s.getPersona().getEdad() < edadMinima) throw new EdadInsuficienteException();
-		if (this.getInscriptos().size() < this.getCupo()) throw new CupoExcedidoException();
+		if (this.getInscriptos().size() > this.getCupo()) throw new CupoExcedidoException();
 
 		inscriptos.add(s);
 	}

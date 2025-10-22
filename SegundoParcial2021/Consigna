@@ -1,25 +1,44 @@
+// Hecho NominaSociosTest
 Comprobar que no pueden agregarse socios repetidos
 
+
+// Hecho OfertaActividadesTest
 Comprobar que no es posible agregar actividades repetidas
+
 
 Comprobar que el encargado de una actividad es un socio de la nómina
 
-Comprobar que el método toString() de java.Actividad devuelve una cadena con el formato "<NombreActividad> a cargo de <Apellido>"
+
+Comprobar que el método toString() de java.Actividad devuelve una cadena
+con el formato "<NombreActividad> a cargo de <Apellido>"
+
 
 Comprobar que el método toString() devuelve una cadena con el formato <Apellido>, <Nombre>
 
+
 Crear un generador de datos de Socios para comprobar que el método toString() devuelve una cadena en formato <Nombre><Apellido>
+
 
 Comprobar que al intentar inscribir más usuarios del cupo permitido, se dispara la excepción java.CupoExcedidoException
 
+
+// Hecho ActividadTest
 Comprobar que al intentar inscribir un socio con una edad no permitida se dispara la excepción EdadInsuficieneException
+
 
 Crear un generador de datos de Actividades aleatorias para comprobar que el cupo es siempre > 0
 
+
+// Hecho ActividadTest
 Crear un test dinámico que pemita comprobar que todos los inscriptos de una actividad cumplen con la edad mínima
 
+
+// Hecho OfertaActividadesTest
 Crear un test dinámico que pemita comprobar que ninguna actividad excede su cupo máximo
 
+
+// Hecho SocioTest
 Generar un script de prueba que permita parametrizar la cantidad de elementos Socios generados aleatoriamente
+
 
 Generar un script de prueba que permita parametrizar la cantidad de Socios generados para inscribir a una actividad totalmente aleatoria
