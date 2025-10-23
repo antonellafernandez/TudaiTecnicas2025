@@ -60,7 +60,7 @@ public class Actividad {
 
 	public String toString() {
 		return this.getNombre()
-				+ "  a cargo de "
-				+ this.getEncargado().getNombre();
+				+ " a cargo de "
+				+ this.getEncargado().getApellido();
 	}
 }

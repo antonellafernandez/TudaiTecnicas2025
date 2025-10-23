@@ -31,7 +31,7 @@ public class OfertaActividadesTest {
     }
 
     @Test // Comprobar que no es posible agregar actividades repetidas
-    public void noPermiteActividadRepetida() throws Exception {
+    public void testNoPermiteActividadRepetida() throws Exception {
         Persona pp = new Persona("Nombre1", "Apellido1", "dni1", 10);
         Actividad a3 = new Actividad("Actividad3", pp, 10, 10);
         Actividad a4 = new Actividad("Actividad3", pp, 10, 10);

@@ -13,7 +13,7 @@ public class NominaSociosTest {
     }
 
     @Test // Comprobar que no pueden agregarse socios repetidos
-    public void noPermiteSocioRepetido_mismaPersona() throws Exception {
+    public void testNoPermiteSocioRepetido() throws Exception {
         Persona p1 = new Persona("Nombre1", "Apellido1", "dni1", 10);
         Persona p2 = new Persona("Nombre1", "Apellido1", "dni1", 10);
 

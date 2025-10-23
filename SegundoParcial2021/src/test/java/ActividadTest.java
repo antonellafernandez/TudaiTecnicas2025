@@ -7,26 +7,24 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ActividadTest {
     private Actividad aa;
 
     @BeforeEach
     public void setUp() throws Exception {
+        NominaSocios.nomina = new ArrayList<>();
+
         // Crear actividad
         Persona pp = new Persona("Nombre", "Apellido", "dni", 30);
+        NominaSocios.Asociar(pp);
         aa = new Actividad("Actividad1", pp, 10, 10);
 
         // Crear y agregar socios
-        Persona p1 = new Persona("Nombre1", "Apellido1", "dni1", 11);
-        Persona p2 = new Persona("Nombre1", "Apellido1", "dni1", 12);
-        Persona p3 = new Persona("Nombre1", "Apellido1", "dni1", 13);
-
-        Socio s1 = new Socio(p1);
-        Socio s2 = new Socio(p2);
-        Socio s3 = new Socio(p3);
+        Socio s1 = new Socio("Nombre1", "Apellido1", "dni1", 11);
+        Socio s2 = new Socio("Nombre2", "Apellido2", "dni2", 12);
+        Socio s3 = new Socio("Nombre3", "Apellido3", "dni3", 13);
 
         aa.inscribirSocio(s1);
         aa.inscribirSocio(s2);
@@ -56,4 +54,16 @@ public class ActividadTest {
         });
     }
 
+    // Comprobar que el encargado de una actividad es un socio de la nómina
+    @Test
+    public void testEncargadoSocio() {
+        assertTrue(NominaSocios.YaExisteEnNomina(aa.getEncargado()));
+    }
+
+    // Comprobar que el método toString() de java.Actividad devuelve una cadena
+    // con el formato "<NombreActividad> a cargo de <Apellido>"
+    @Test
+    public void testValidarToString() {
+        assertEquals(aa.toString(), aa.getNombre() + " a cargo de " + aa.getEncargado().getApellido());
+    }
 }
