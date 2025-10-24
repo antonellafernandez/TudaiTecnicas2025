@@ -20,5 +20,4 @@ public class NominaSociosTest {
         assertDoesNotThrow(() -> NominaSocios.Asociar(p1));
         assertThrows(YaExisteSocioException.class, () -> NominaSocios.Asociar(p2));
     }
-
 }

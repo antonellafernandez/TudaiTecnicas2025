@@ -1,7 +1,4 @@
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DynamicTest;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestFactory;
+import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,7 +16,7 @@ public class ActividadTest {
         // Crear actividad
         Persona pp = new Persona("Nombre", "Apellido", "dni", 30);
         NominaSocios.Asociar(pp);
-        aa = new Actividad("Actividad1", pp, 10, 10);
+        aa = new Actividad("Actividad1", pp, 10, 3);
 
         // Crear y agregar socios
         Socio s1 = new Socio("Nombre1", "Apellido1", "dni1", 11);
@@ -65,5 +62,27 @@ public class ActividadTest {
     @Test
     public void testValidarToString() {
         assertEquals(aa.toString(), aa.getNombre() + " a cargo de " + aa.getEncargado().getApellido());
+    }
+
+    // Comprobar que al intentar inscribir más usuarios del cupo permitido,
+    // se dispara la excepción java.CupoExcedidoException
+    @Test
+    public void testValidarCupo() {
+        assertThrows(CupoExcedidoException.class, () -> {
+            aa.inscribirSocio(new Socio("Nombre", "Apellido", "dni", 11));
+        });
+    }
+
+    // Crear un generador de datos de Actividades aleatorias para comprobar que el cupo es siempre > 0
+    @RepeatedTest(10)
+    public void testCupoAleatorias(RepetitionInfo rep) { // Comienza en 1
+        int idx = rep.getCurrentRepetition() - 1;
+        String nombre = "Actividad" + idx;
+        Persona encargado = new Persona("Nombre", "Apellido", "dni", 30);
+        int edadMinima = idx;
+        int cupo = idx + 1;
+
+        Actividad nueva = new Actividad(nombre, encargado, edadMinima, cupo);
+        assertTrue(nueva.getCupo() > 0);
     }
 }

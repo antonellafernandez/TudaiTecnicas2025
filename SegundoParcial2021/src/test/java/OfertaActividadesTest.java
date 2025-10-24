@@ -1,8 +1,11 @@
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -52,5 +55,27 @@ public class OfertaActividadesTest {
         }
 
         return tests;
+    }
+
+    // Generar un script de prueba que permita parametrizar la cantidad de Socios generados para inscribir a una
+    // actividad totalmente aleatoria
+    @ParameterizedTest
+    @CsvFileSource(resources= "/socios.csv", numLinesToSkip = 1) // Salta el header
+    public void testGenerarSociosInscribirActividad(String nombre, String apellido, String dni, int edad) {
+        Socio ss = new Socio(nombre, apellido, dni, edad);
+
+        Random rnd = new Random();
+        Actividad aa = OfertaActividades.nomina.get(rnd.nextInt(OfertaActividades.nomina.size()));
+
+        int edadMinima = aa.getEdadMinima();
+        int cupo = aa.getCupo();
+
+        if (ss.getPersona().getEdad() < edadMinima) {
+            assertThrows(EdadInsuficienteException.class, () -> aa.inscribirSocio(ss));
+        } else if (aa.getInscriptos().size() == cupo) {
+            assertThrows(CupoExcedidoException.class, () -> aa.inscribirSocio(ss));
+        } else {
+            assertDoesNotThrow(() -> aa.inscribirSocio(ss));
+        }
     }
 }
