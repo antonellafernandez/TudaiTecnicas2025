@@ -32,8 +32,8 @@ Crear un test dinámico que pemita comprobar que todos los inscriptos de una act
 // Hecho OfertaActividadesTest
 Crear un test dinámico que pemita comprobar que ninguna actividad excede su cupo máximo
 
-// Hecho SocioTest
-Generar un script de prueba que permita parametrizar la cantidad de elementos Socios generados
+// Hecho NominaSociosTest
+Generar un script de prueba que permita parametrizar la cantidad de elementos Socios generados aleatoriamente
 
 // Hecho OfertaActividadesTest
 Generar un script de prueba que permita parametrizar la cantidad de Socios generados para inscribir a una

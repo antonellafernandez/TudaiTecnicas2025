@@ -64,4 +64,12 @@ public class NominaSocios {
 	public static ArrayList<Socio> GetNomina(){
 		return nomina;
 	}
+
+	public static int getCupo() {
+		return cupo;
+	}
+
+	public static void setCupo(int cupo) {
+		NominaSocios.cupo = cupo;
+	}
 }

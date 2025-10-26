@@ -9,19 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class SocioTest {
-    // Generar un script de prueba que permita parametrizar la cantidad de elementos Socios generados
-    @ParameterizedTest
-    @CsvFileSource(resources= "/socios.csv", numLinesToSkip = 1) // Salta el header
-    public void testGenerarSocioAleatorioJUnit(String nombre, String apellido, String dni, int edad) {
-        Socio ss = new Socio(nombre, apellido, dni, edad);
-
-        assertEquals(ss.getPersona().getNombre(), nombre);
-        assertEquals(ss.getPersona().getApellido(), apellido);
-        assertEquals(ss.getPersona().getDni(), dni);
-        assertEquals(ss.getPersona().getEdad(), edad);
-        assertNotNull(ss.getFechaIngreso());
-    }
-
     // Comprobar que el método toString() de java.Socio devuelve una cadena con el formato <Apellido>, <Nombre>
     @Test
     public void testValidarToString() {
